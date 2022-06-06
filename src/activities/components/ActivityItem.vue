@@ -68,7 +68,7 @@
           >
             <Markdown
               v-if="participantType.description"
-              :source="participantType.description"em
+              :source="participantType.description"
             />
             <ActivityUsers
               :activity="activity"
