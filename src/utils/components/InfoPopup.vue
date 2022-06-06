@@ -12,7 +12,7 @@
       square
       dark
       max-width="280px"
-      :content-class="menuContentClass"
+      :class="menuContentClass /* TODO: check if we need class or content-class */"
     >
       <p
         v-if="title"

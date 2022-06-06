@@ -1,4 +1,5 @@
-import { storiesOf } from '@storybook/vue'
+import { h } from 'vue'
+import { storiesOf } from '@storybook/vue3'
 import { statusMocks, storybookDefaults as defaults, createDatastore } from '>/helpers'
 
 import PlaceList from './PlaceList'
@@ -19,7 +20,12 @@ const otherPlaces = [...Array(5).keys()].map(() => makePlace({
 }))
 const places = [place, ...otherPlaces]
 
-const headerDatastore = createDatastore({
+const store = createDatastore({
+  users: {
+    getters: {
+      byCurrentGroup: () => [],
+    },
+  },
   currentGroup: {
     getters: {
       isEditor: () => false,
@@ -36,29 +42,28 @@ const headerDatastore = createDatastore({
 
 storiesOf('Places', module)
   .add('PlaceList', () => defaults({
-    render: h => h(PlaceList, {
-      props: { places },
+    store,
+    render: () => h(PlaceList, {
+      places,
     }),
   }))
   .add('PlaceEdit', () => defaults({
-    render: h => h(PlaceEdit, {
-      props: {
-        value: place,
-        allPlaces: otherPlaces,
-        status: statusMocks.default(),
-      },
+    store,
+    render: () => h(PlaceEdit, {
+      value: place,
+      allPlaces: otherPlaces,
+      status: statusMocks.default(),
     }),
   }))
   .add('PlaceEdit (with server error)', () => defaults({
-    render: h => h(PlaceEdit, {
-      props: {
-        value: place,
-        allPlaces: otherPlaces,
-        status: statusMocks.validationError('name', 'a nice server error'),
-      },
+    store,
+    render: () => h(PlaceEdit, {
+      value: place,
+      allPlaces: otherPlaces,
+      status: statusMocks.validationError('name', 'a nice server error'),
     }),
   }))
   .add('PlaceHeader', () => defaults({
-    render: h => h(PlaceHeader, { props: { places } }),
-    store: headerDatastore,
+    store,
+    render: () => h(PlaceHeader, { places }),
   }))

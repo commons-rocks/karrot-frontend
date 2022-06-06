@@ -1,4 +1,5 @@
-import { storiesOf } from '@storybook/vue'
+import { h } from 'vue'
+import { storiesOf } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
 
 import ActivityItem from './ActivityItem'
@@ -42,74 +43,67 @@ const datastore = createDatastore({
       user: () => user,
     },
   },
+  users: {
+    getters: {
+      byCurrentGroup: () => [],
+    },
+  },
 })
 
-const methods = {
-  join: action('join'),
-  leave: action('leave'),
+const on = {
+  onJoin: action('join'),
+  onLeave: action('leave'),
 }
 
 storiesOf('ActivityItem', module)
   .add('join', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: joinableActivity,
-      },
-      on: methods,
+    render: () => h(ActivityItem, {
+      activity: joinableActivity,
+      ...on,
     }),
     store: datastore,
   }))
   .add('joined', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: leavableActivity,
-      },
-      on: methods,
+    render: () => h(ActivityItem, {
+      activity: leavableActivity,
+      ...on,
     }),
     store: datastore,
   }))
   .add('pending', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: {
-          ...joinableActivity,
-          joinStatus: statusMocks.pending(),
-        },
+    render: () => h(ActivityItem, {
+      activity: {
+        ...joinableActivity,
+        joinStatus: statusMocks.pending(),
       },
-      on: methods,
+      ...on,
     }),
     store: datastore,
   }))
   .add('full', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: fullActivity,
-      },
-      on: methods,
+    render: () => h(ActivityItem, {
+      activity: fullActivity,
+      ...on,
     }),
     store: datastore,
   }))
   .add('disabled', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: {
-          ...fullActivity,
-          isDisabled: true,
-        },
+    render: () => h(ActivityItem, {
+      activity: {
+        ...fullActivity,
+        isDisabled: true,
       },
-      on: methods,
+      ...on,
     }),
     store: datastore,
   }))
   .add('started', () => defaults({
-    render: h => h(ActivityItem, {
-      props: {
-        activity: {
-          ...fullActivity,
-          hasStarted: true,
-        },
+    render: () => h(ActivityItem, {
+      activity: {
+        ...fullActivity,
+        hasStarted: true,
       },
-      on: methods,
+      ...on,
     }),
     store: datastore,
   }))

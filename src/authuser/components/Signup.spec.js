@@ -4,6 +4,7 @@ import { mountWithDefaults, statusMocks } from '>/helpers'
 
 const userData = {
   displayName: 'my name',
+  username: 'myusername',
   email: 'hello@hello.com',
   password: 'secret',
 }
@@ -14,7 +15,7 @@ describe('Signup', () => {
     const wrapper = mountWithDefaults(Signup, {
       propsData: {
         status: statusMocks.default(),
-        prefillEmail: () => '',
+        prefillEmail: '',
         hasGroupToJoin: false,
       },
     })

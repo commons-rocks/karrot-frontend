@@ -1,6 +1,7 @@
-import { storiesOf } from '@storybook/vue'
+import { h } from 'vue'
+import { storiesOf } from '@storybook/vue3'
 
-import { statusMocks, storybookDefaults as defaults } from '>/helpers'
+import { createDatastore, statusMocks, storybookDefaults as defaults } from '>/helpers'
 import * as factories from '>/enrichedFactories'
 
 const ActivityEdit = () => require('./ActivityEdit').default
@@ -8,86 +9,88 @@ const ActivityEdit = () => require('./ActivityEdit').default
 const activity = factories.makeActivity()
 const series = factories.makeActivitySeries()
 
+const store = createDatastore({
+  users: {
+    getters: {
+      byCurrentGroup: () => [],
+    },
+  },
+})
+
 storiesOf('ActivityEdit', module)
   .add('default', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: activity,
-          series,
-          status: statusMocks.default(),
-        },
+        value: activity,
+        series,
+        status: statusMocks.default(),
       })
     },
   }))
   .add('disabled', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: {
-            ...activity,
-            isDisabled: true,
-          },
-          series,
-          status: statusMocks.default(),
+        value: {
+          ...activity,
+          isDisabled: true,
         },
+        series,
+        status: statusMocks.default(),
       })
     },
   }))
   .add('with duration', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: {
-            ...activity,
-            hasDuration: true,
-          },
-          series,
-          status: statusMocks.default(),
+        value: {
+          ...activity,
+          hasDuration: true,
         },
+        series,
+        status: statusMocks.default(),
       })
     },
   }))
   .add('series changed', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: {
-            ...activity,
-            seriesMeta: {
-              isMaxParticipantsChanged: true,
-              isDescriptionChanged: true,
-            },
+        value: {
+          ...activity,
+          seriesMeta: {
+            isMaxParticipantsChanged: true,
+            isDescriptionChanged: true,
           },
-          series: {
-            ...series,
-            description: 'other',
-            maxParticipants: 1,
-          },
-          status: statusMocks.default(),
         },
+        series: {
+          ...series,
+          description: 'other',
+          maxParticipants: 1,
+        },
+        status: statusMocks.default(),
       })
     },
   }))
   .add('pending', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: activity,
-          series,
-          status: statusMocks.pending(),
-        },
+        value: activity,
+        series,
+        status: statusMocks.pending(),
       })
     },
   }))
   .add('error', () => defaults({
-    render (h) {
+    store,
+    render () {
       return h(ActivityEdit(), {
-        props: {
-          value: activity,
-          series,
-          status: statusMocks.validationError('date', 'Wrong time'),
-        },
+        value: activity,
+        series,
+        status: statusMocks.validationError('date', 'Wrong time'),
       })
     },
   }))

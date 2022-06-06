@@ -95,7 +95,7 @@ export default {
     this.fetchInitial()
     setTimeout(() => this.markConversationsSeen(), 3 * 1000)
   },
-  destroyed () {
+  unmounted () {
     this.markConversationsSeen()
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
     open (conv) {
       const { type, target } = conv
       switch (type) {
-        case 'group': return this.$router.push({ name: 'group', params: { groupId: target.id } }).catch(() => {})
+        case 'group': return this.$router.push({ name: 'group', params: { groupId: target.id }, hash: '#messages' }).catch(() => {})
         case 'place': return this.$router.push({ name: 'placeWall', params: { groupId: target.group.id, placeId: target.id } }).catch(() => {})
         case 'activity': return this.openForActivity(target)
         case 'private': return this.openForUser(target)

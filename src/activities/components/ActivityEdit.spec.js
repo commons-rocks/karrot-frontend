@@ -1,10 +1,18 @@
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 import ActivityEdit from './ActivityEdit'
 import { activitiesMock } from '>/mockdata'
 import cloneDeep from 'clone-deep'
 
-import { mountWithDefaults, statusMocks } from '>/helpers'
+import { createDatastore, mountWithDefaults, statusMocks } from '>/helpers'
+
+const datastore = createDatastore({
+  users: {
+    getters: {
+      byCurrentGroup: () => [],
+    },
+  },
+})
 
 describe('ActivityEdit', () => {
   beforeEach(() => jest.resetModules())
@@ -13,7 +21,10 @@ describe('ActivityEdit', () => {
   beforeEach(() => {
     activity = cloneDeep(activitiesMock[0])
     unenriched = cloneDeep(activitiesMock[0])
-    wrapper = mountWithDefaults(ActivityEdit, { propsData: { value: activity, status: statusMocks.default() } })
+    wrapper = mountWithDefaults(ActivityEdit, {
+      datastore,
+      propsData: { value: activity, status: statusMocks.default() },
+    })
   })
 
   it('renders', () => {
@@ -31,7 +42,7 @@ describe('ActivityEdit', () => {
     expect(wrapper.vm.hasChanged).toBe(false)
     wrapper.vm.edit.maxParticipants++
     expect(wrapper.vm.hasChanged).toBe(true)
-    return Vue.nextTick().then(() => {
+    return nextTick().then(() => {
       expect(wrapper.classes()).toContain('changed')
     })
   })

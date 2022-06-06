@@ -1,8 +1,9 @@
-import { storiesOf } from '@storybook/vue'
+import { h } from 'vue'
+import { storiesOf } from '@storybook/vue3'
 
 import ChatConversation from './ChatConversation'
 import * as factories from '>/enrichedFactories'
-import { statusMocks, storybookDefaults as defaults } from '>/helpers'
+import { createDatastore, statusMocks, storybookDefaults as defaults } from '>/helpers'
 import { messagesMock } from '>/mockdata'
 
 const conversation = factories.makeConversation()
@@ -17,61 +18,63 @@ const defaultProps = data => ({
   ...data,
 })
 
+const store = createDatastore({
+  users: {
+    getters: {
+      byCurrentGroup: () => [],
+    },
+  },
+})
+
 storiesOf('ChatConversation', module)
   .add('default', () => defaults({
-    render: h => h(ChatConversation, {
-      props: defaultProps(),
-    }),
+    store,
+    render: () => h(ChatConversation, defaultProps()),
   }))
   .add('fetching past', () => defaults({
-    render: h => h(ChatConversation, {
-      props: defaultProps({
-        conversation: {
-          ...conversation,
-          fetchPastStatus: statusMocks.pending(),
-        },
-      }),
-    }),
+    store,
+    render: () => h(ChatConversation, defaultProps({
+      conversation: {
+        ...conversation,
+        fetchPastStatus: statusMocks.pending(),
+      },
+    })),
   }))
   .add('closed', () => defaults({
-    render: h => h(ChatConversation, {
-      props: defaultProps({
-        conversation: {
-          ...conversation,
-          isClosed: true,
-        },
-      }),
-    }),
+    store,
+    render: () => h(ChatConversation, defaultProps({
+      conversation: {
+        ...conversation,
+        isClosed: true,
+      },
+    })),
   }))
   .add('not participant', () => defaults({
-    render: h => h(ChatConversation, {
-      props: defaultProps({
-        conversation: {
-          ...conversation,
-          isParticipant: false,
-        },
-      }),
-    }),
+    store,
+    render: () => h(ChatConversation, defaultProps({
+      conversation: {
+        ...conversation,
+        isParticipant: false,
+      },
+    })),
   }))
   .add('thread', () => defaults({
-    render: h => h(ChatConversation, {
-      props: defaultProps({
-        conversation: thread,
-      }),
-    }),
+    store,
+    render: () => h(ChatConversation, defaultProps({
+      conversation: thread,
+    })),
   }))
   .add('message groups', () => defaults({
-    render: h => {
+    store,
+    render: () => {
       const timeDiff = new Date() - messagesMock[messagesMock.length - 1].createdAt.getTime()
-      return h(ChatConversation, {
-        props: defaultProps({
-          conversation: {
-            ...conversation,
-            messages: messagesMock.map(
-              message => ({ ...message, createdAt: new Date(message.createdAt.getTime() + timeDiff) }),
-            ),
-          },
-        }),
-      })
+      return h(ChatConversation, defaultProps({
+        conversation: {
+          ...conversation,
+          messages: messagesMock.map(
+            message => ({ ...message, createdAt: new Date(message.createdAt.getTime() + timeDiff) }),
+          ),
+        },
+      }))
     },
   }))
