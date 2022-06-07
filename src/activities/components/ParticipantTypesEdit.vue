@@ -197,7 +197,7 @@ export default {
   },
   mixins: [statusMixin],
   props: {
-    value: {
+    modelValue: {
       required: true,
       type: Array,
     },
@@ -287,7 +287,7 @@ export default {
     },
   },
   watch: {
-    value: {
+    modelValue: {
       handler (val) {
         this.participantTypes = val
       },

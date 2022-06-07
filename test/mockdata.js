@@ -69,10 +69,18 @@ function enrichActivity (e) {
   return e
 }
 
-export const joinableActivity = enrichActivity({ id: 234, date: '2017-08-12T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3], description: 'you can join this activity', isFull: false, isUserMember: false })
-export const leavableActivity = enrichActivity({ id: 235, date: '2017-08-13T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 5], description: 'you are participant and can leave this activity', isFull: false, isUserMember: true })
-export const fullActivity = enrichActivity({ id: 236, date: '2017-08-14T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3, 4], description: 'this activity is already full!', isFull: true, isUserMember: false })
-export const emptyActivity = enrichActivity({ id: 237, date: '2017-08-15T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [], description: 'this activity is fresh and empty', isFull: false, isUserMember: false, isEmpty: true })
+const participantTypes = [
+  {
+    role: 'member',
+    maxParticipants: 4,
+    description: 'normal member',
+  },
+]
+
+export const joinableActivity = enrichActivity({ id: 234, date: '2017-08-12T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3], description: 'you can join this activity', isFull: false, isUserMember: false, participantTypes })
+export const leavableActivity = enrichActivity({ id: 235, date: '2017-08-13T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 5], description: 'you are participant and can leave this activity', isFull: false, isUserMember: true, participantTypes })
+export const fullActivity = enrichActivity({ id: 236, date: '2017-08-14T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3, 4], description: 'this activity is already full!', isFull: true, isUserMember: false, participantTypes })
+export const emptyActivity = enrichActivity({ id: 237, date: '2017-08-15T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [], description: 'this activity is fresh and empty', isFull: false, isUserMember: false, isEmpty: true, participantTypes })
 
 export const activitiesMock = [joinableActivity, leavableActivity, fullActivity, emptyActivity]
 
