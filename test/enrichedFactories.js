@@ -28,6 +28,7 @@ import imageRandomC from '@/base/pages/images/random-imgs/bike-workshop-200.jpg'
 import imageRandomD from '@/base/pages/images/random-imgs/solikyl-savers-200.jpg'
 import imageRandomE from '@/base/pages/images/random-imgs/fsmaastricht-fairshare-200.jpg'
 import imageRandomF from '@/base/pages/images/random-imgs/fsmaastricht-foodsavers-200.jpg'
+import cloneDeep from 'clone-deep'
 
 let notificationIdCnt = 0
 export const makeNotification = data => {
@@ -222,6 +223,16 @@ export const makePlaceStatistics = data => {
   }
 }
 
+export const participantType = {
+  role: 'member',
+  maxParticipants: 4,
+  description: 'normal member',
+}
+
+export const participantTypes = [
+  participantType,
+]
+
 let activityTypeIdCnt = 0
 export const activityTypes = {
   pickup: {
@@ -261,6 +272,7 @@ export const makeActivity = data => {
     saveStatus: statusMocks.default(),
     leaveStatus: statusMocks.default(),
     joinStatus: statusMocks.default(),
+    participantTypes: cloneDeep(participantTypes),
     ...data,
   }
 }
@@ -288,6 +300,7 @@ export const makeActivitySeries = data => {
       freq: 'WEEKLY',
       isCustom: false,
     },
+    participantTypes: cloneDeep(participantTypes),
     ...data,
   }
 }

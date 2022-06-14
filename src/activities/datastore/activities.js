@@ -27,6 +27,16 @@ export default {
         return {
           ...participant,
           user: rootGetters['users/get'](participant.user),
+          participantType: activity.participantTypes.find(pt => pt.id === participant.participantType),
+        }
+      })
+      const participantTypes = activity.participantTypes.map(participantType => {
+        const roleParticipants = participants.filter(({ role }) => role === participantType.role)
+        return {
+          ...participantType,
+          participants: roleParticipants,
+          isEmpty: roleParticipants.length === 0,
+          isFull: participantType.maxParticipants > 0 && roleParticipants >= participantType.maxParticipants,
         }
       })
       return {
@@ -37,15 +47,7 @@ export default {
         activityType,
         group,
         participants,
-        participantTypes: activity.participantTypes.map(participantType => {
-          const roleParticipants = participants.filter(({ role }) => role === participantType.role)
-          return {
-            ...participantType,
-            participants: roleParticipants,
-            isEmpty: roleParticipants.length === 0,
-            isFull: participantType.maxParticipants > 0 && roleParticipants >= participantType.maxParticipants,
-          }
-        }),
+        participantTypes,
         feedbackGivenBy: activity.feedbackGivenBy ? activity.feedbackGivenBy.map(rootGetters['users/get']) : [],
         feedbackDismissedBy: activity.feedbackDismissedBy ? activity.feedbackDismissedBy.map(rootGetters['users/get']) : [],
         hasStarted: activity.date <= reactiveNow.value && activity.dateEnd > reactiveNow.value,

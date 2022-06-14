@@ -82,7 +82,6 @@ storiesOf('Feedback', module)
   .add('FeedbackList', () => defaults({
     render: () => h(FeedbackList, {
       feedback: feedbackMock,
-      place: placesMock[0],
       status: statusMocks.default(),
       highlight: feedbackMock[1].id,
     }),

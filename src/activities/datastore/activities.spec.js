@@ -25,6 +25,8 @@ describe('activities', () => {
 
     const userId = 10
 
+    let participantType
+    let participantTypes
     let activity1
     let activity2
     let activity3
@@ -44,13 +46,22 @@ describe('activities', () => {
       const now = new Date('2017-01-01T12:00:10Z')
       clock = lolex.install({ now, toFake: ['Date'] })
       const activityType = activityTypes.pickup.id
-      activity1 = { id: 1, activityType, place: 10, participants: [], group, ...dates('2017-01-01T13:00:10Z') }
-      activity2 = { id: 2, activityType, place: 11, participants: [userId], maxParticipants: 1, group, ...dates('2017-01-01T13:00:10Z') }
-      activity3 = { id: 3, activityType, place: 12, participants: [userId], group, ...dates('2017-01-01T13:00:10Z') }
-      pastActivity1 = { id: 4, activityType, place: 13, participants: [], group, ...dates('2017-01-01T09:00:10Z') }
-      pastActivity2 = { id: 4, activityType, place: 13, participants: [], group, ...dates('2017-01-01T10:00:10Z') }
-      startedActivity1 = { id: 5, activityType, place: 13, participants: [userId], group, ...dates('2017-01-01T09:00:10Z', 28800) }
-      startedActivity2 = { id: 6, activityType, place: 13, participants: [], group, ...dates('2017-01-01T11:50:10Z') }
+      participantType = {
+        id: 1,
+        role: 'member',
+        maxParticipants: 4,
+        description: 'normal member',
+      }
+      participantTypes = [
+        participantType,
+      ]
+      activity1 = { id: 1, activityType, participantTypes, place: 10, participants: [], group, ...dates('2017-01-01T13:00:10Z') }
+      activity2 = { id: 2, activityType, participantTypes, place: 11, participants: [{ user: userId, participantType: participantType.id }], maxParticipants: 1, group, ...dates('2017-01-01T13:00:10Z') }
+      activity3 = { id: 3, activityType, participantTypes, place: 12, participants: [{ user: userId, participantType: participantType.id }], group, ...dates('2017-01-01T13:00:10Z') }
+      pastActivity1 = { id: 4, activityType, participantTypes, place: 13, participants: [], group, ...dates('2017-01-01T09:00:10Z') }
+      pastActivity2 = { id: 4, activityType, participantTypes, place: 13, participants: [], group, ...dates('2017-01-01T10:00:10Z') }
+      startedActivity1 = { id: 5, activityType, participantTypes, place: 13, participants: [{ user: userId, participantType: participantType.id }], group, ...dates('2017-01-01T09:00:10Z', 28800) }
+      startedActivity2 = { id: 6, activityType, participantTypes, place: 13, participants: [], group, ...dates('2017-01-01T11:50:10Z') }
     })
 
     afterEach(() => {
@@ -109,7 +120,6 @@ describe('activities', () => {
         place: { id: activity2.place, group, isSubscribed: true },
         isUserMember: true,
         isEmpty: false,
-        isFull: true,
         activityType: {
           ...activityTypes.pickup,
           colorName: `activity-type-${activityTypes.pickup.id}`,
@@ -124,7 +134,13 @@ describe('activities', () => {
             title: activityTypes.pickup.name,
           },
         },
-        participants: [{ id: userId, name: `Some Name${userId}` }],
+        participantTypes: participantTypes.map(pt => ({
+          ...pt,
+          isEmpty: true,
+          isFull: false,
+          participants: [],
+        })),
+        participants: [{ user: { id: userId, name: `Some Name${userId}` }, participantType }],
         feedbackGivenBy: [],
         feedbackDismissedBy: [],
         hasStarted: false,
@@ -144,11 +160,12 @@ describe('activities', () => {
       const dateEnd = addSeconds(date, 1800)
       const activityId = 99
       const placeId = 101
-      mockGet.mockImplementationOnce(id => ({ id, date, dateEnd, place: placeId, participants: [] }))
+      mockGet.mockImplementationOnce(id => ({ id, date, dateEnd, place: placeId, participants: [], participantTypes: [] }))
       await vstore.dispatch('activities/fetch', activityId)
       const activity = vstore.getters['activities/get'](activityId)
       expect(activity).toEqual({
         id: activityId,
+        participantTypes: [],
         participants: [],
         feedbackGivenBy: [],
         feedbackDismissedBy: [],
@@ -156,7 +173,6 @@ describe('activities', () => {
         dateEnd,
         isUserMember: false,
         isEmpty: true,
-        isFull: false,
         hasStarted: true,
         ...defaultActionStatusesFor('save', 'join', 'leave'),
         place: {
@@ -170,8 +186,8 @@ describe('activities', () => {
 
     it('can join a activity', async () => {
       expect(vstore.getters['activities/joined'].map(getId)).not.toContain(activity1.id)
-      await vstore.dispatch('activities/join', activity1.id)
-      expect(mockJoin).toBeCalledWith(activity1.id)
+      await vstore.dispatch('activities/join', { id: activity1.id, participantTypeId: participantType.id })
+      expect(mockJoin).toBeCalledWith({ activityId: activity1.id, participantTypeId: participantType.id })
     })
 
     it('can leave a activity', async () => {

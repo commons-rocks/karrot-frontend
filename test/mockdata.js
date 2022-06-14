@@ -7,6 +7,7 @@
 import { statusMocks } from '>/helpers'
 import { optionsFor } from '@/places/placeStatus'
 import addSeconds from 'date-fns/addSeconds'
+import cloneDeep from "clone-deep";
 
 export const groupsMock = [
   { applicationQuestions: 'Hello stranger! :smiley: :wave: Do you want to help us save all the good food from being wasted? Please tell us how you plan to contribute and who or what made you aware of our existence! Looking forward to working with you!', id: 1, name: '05_testgroup', publicDescription: 'This is the public description\nIt would make sense if it was markdown\n\n# then this would be a header\n[and this a link](www.google.de)', address: 'Darmstadt, Regierungsbezirk Darmstadt, Hessen, Deutschland', latitude: 49.872775, longitude: 8.651177, members: [184, 6, 18, 28, 65, 76, 73, 96, 117, 17, 29, 45, 195, 1, 183, 196, 22, 8], protected: false, conversationId: 1 },
@@ -57,10 +58,24 @@ export const placesMock = [
 
 export const placeWithoutLocation = convertPlace({ id: 62, name: 'Griesheimer Markt 2', description: 'Frisches Essen dies das', group: 1, address: 'Griesheim Marktplatz 1', latitude: undefined, longitude: undefined, weeksInAdvance: 4, upcomingNotificationHours: 4 })
 
+export const participantType = {
+  id: 1,
+  role: 'member',
+  maxParticipants: 4,
+  description: 'normal member',
+}
+
+export const participantTypes = [
+  participantType,
+]
+
 function enrichActivity (e) {
   e.date = new Date(e.date)
   e.dateEnd = addSeconds(e.date, 1800)
-  e.participants = e.participants.map(i => usersMock.find(u => u.id === i))
+  e.participants = e.participants.map(p => ({
+    user: usersMock.find(u => u.id === p.user),
+    participantType: participantTypes.find(t => t.id === p.participantType),
+  }))
   e.place = placesMock.find(s => e.place === s.id)
   e.saveStatus = statusMocks.default()
   e.joinStatus = statusMocks.default()
@@ -69,23 +84,68 @@ function enrichActivity (e) {
   return e
 }
 
-const participantTypes = [
-  {
-    role: 'member',
-    maxParticipants: 4,
-    description: 'normal member',
-  },
-]
+const baseActivity = {
+  id: 234,
+  date: '2017-08-12T08:00:00Z',
+  series: 36,
+  place: 61,
+  maxParticipants: 4,
+  participants: [
+    { user: 1, participantType: 1 },
+    { user: 2, participantType: 1 },
+    { user: 3, participantType: 1 },
+  ],
+  description: 'you can join this activity',
+  isFull: false,
+  isUserMember: false,
+  participantTypes,
+}
 
-export const joinableActivity = enrichActivity({ id: 234, date: '2017-08-12T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3], description: 'you can join this activity', isFull: false, isUserMember: false, participantTypes })
-export const leavableActivity = enrichActivity({ id: 235, date: '2017-08-13T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 5], description: 'you are participant and can leave this activity', isFull: false, isUserMember: true, participantTypes })
-export const fullActivity = enrichActivity({ id: 236, date: '2017-08-14T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [1, 2, 3, 4], description: 'this activity is already full!', isFull: true, isUserMember: false, participantTypes })
-export const emptyActivity = enrichActivity({ id: 237, date: '2017-08-15T08:00:00Z', series: 36, place: 61, maxParticipants: 4, participants: [], description: 'this activity is fresh and empty', isFull: false, isUserMember: false, isEmpty: true, participantTypes })
+export const joinableActivity = enrichActivity(cloneDeep(baseActivity))
+
+export const leavableActivity = enrichActivity({
+  ...cloneDeep(baseActivity),
+  id: 235,
+  date: '2017-08-13T08:00:00Z',
+  participants: [
+    { user: 1, participantType: 1 },
+    { user: 2, participantType: 1 },
+    { user: 5, participantType: 1 },
+  ],
+  description: 'you are participant and can leave this activity',
+  isUserMember: true,
+})
+
+export const fullActivity = enrichActivity({
+  ...cloneDeep(baseActivity),
+  id: 236,
+  date: '2017-08-14T08:00:00Z',
+  participants: [
+    { user: 1, participantType: 1 },
+    { user: 2, participantType: 1 },
+    { user: 3, participantType: 1 },
+    { user: 4, participantType: 1 },
+  ],
+  description: 'this activity is already full!',
+  isFull: true,
+  isUserMember: false,
+})
+
+export const emptyActivity = enrichActivity({
+  ...cloneDeep(baseActivity),
+  id: 237,
+  date: '2017-08-15T08:00:00Z',
+  participants: [],
+  description: 'this activity is fresh and empty',
+  isFull: false,
+  isUserMember: false,
+  isEmpty: true,
+})
 
 export const activitiesMock = [joinableActivity, leavableActivity, fullActivity, emptyActivity]
 
 export const activitySeriesMock = [
-  { id: 38, maxParticipants: 2, place: 2, rule: { freq: 'WEEKLY', byDay: ['TH', 'SU'], isCustom: false, rule: 'FREQ=WEEKLY;BYDAY=TH,SU' }, startDate: new Date('2017-09-17T08:00:00.000Z'), description: 'a nice description for the series' },
+  { id: 38, maxParticipants: 2, place: 2, rule: { freq: 'WEEKLY', byDay: ['TH', 'SU'], isCustom: false, rule: 'FREQ=WEEKLY;BYDAY=TH,SU' }, startDate: new Date('2017-09-17T08:00:00.000Z'), description: 'a nice description for the series', participantTypes },
 ].map(e => ({
   ...e,
   saveStatus: statusMocks.default(),

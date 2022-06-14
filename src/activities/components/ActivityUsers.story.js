@@ -3,7 +3,14 @@ import { storiesOf } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
 
 const ActivityUsers = () => import('./ActivityUsers')
-import { joinableActivity, leavableActivity, fullActivity, emptyActivity, currentUserMock } from '>/mockdata'
+import {
+  joinableActivity,
+  leavableActivity,
+  fullActivity,
+  emptyActivity,
+  currentUserMock,
+  participantType,
+} from '>/mockdata'
 import { createDatastore, storybookDefaults as defaults, statusMocks } from '>/helpers'
 
 const datastore = createDatastore({
@@ -18,6 +25,7 @@ storiesOf('ActivityUsers', module)
   .add('joinable', () => defaults({
     render: () => h(ActivityUsers, {
       activity: joinableActivity,
+      participantType,
       onJoin: action('join'),
     }),
     store: datastore,
@@ -28,6 +36,7 @@ storiesOf('ActivityUsers', module)
         ...joinableActivity,
         joinStatus: statusMocks.pending(),
       },
+      participantType,
       onJoin: action('join'),
     }),
     store: datastore,
@@ -35,6 +44,7 @@ storiesOf('ActivityUsers', module)
   .add('leavable (current last)', () => defaults({
     render: () => h(ActivityUsers, {
       activity: leavableActivity,
+      participantType,
       onLeave: action('leave'),
     }),
     store: datastore,
@@ -44,10 +54,11 @@ storiesOf('ActivityUsers', module)
       activity: {
         ...leavableActivity,
         participants: [
-          leavableActivity.participants.find(c => c.isCurrentUser),
-          ...leavableActivity.participants.filter(c => !c.isCurrentUser),
+          leavableActivity.participants.find(c => c.user.isCurrentUser),
+          ...leavableActivity.participants.filter(c => !c.user.isCurrentUser),
         ],
       },
+      participantType,
       onLeave: action('leave'),
     }),
     store: datastore,
@@ -58,10 +69,11 @@ storiesOf('ActivityUsers', module)
         ...leavableActivity,
         participants: [
           leavableActivity.participants[0],
-          leavableActivity.participants.find(c => c.isCurrentUser),
+          leavableActivity.participants.find(c => c.user.isCurrentUser),
           leavableActivity.participants[1],
         ],
       },
+      participantType,
       onLeave: action('leave'),
     }),
     store: datastore,
@@ -72,11 +84,12 @@ storiesOf('ActivityUsers', module)
         ...leavableActivity,
         participants: [
           leavableActivity.participants[0],
-          leavableActivity.participants.find(c => c.isCurrentUser),
+          leavableActivity.participants.find(c => c.user.isCurrentUser),
           leavableActivity.participants[1],
         ],
         leaveStatus: statusMocks.pending(),
       },
+      participantType,
       onLeave: action('leave'),
     }),
     store: datastore,
@@ -87,6 +100,7 @@ storiesOf('ActivityUsers', module)
         ...leavableActivity,
         hasStarted: true,
       },
+      participantType,
       onLeave: action('leave'),
     }),
     store: datastore,
@@ -94,12 +108,14 @@ storiesOf('ActivityUsers', module)
   .add('full', () => defaults({
     render: () => h(ActivityUsers, {
       activity: fullActivity,
+      participantType,
     }),
     store: datastore,
   }))
   .add('empty', () => defaults({
     render: () => h(ActivityUsers, {
       activity: emptyActivity,
+      participantType,
       onJoin: action('join'),
     }),
     store: datastore,
