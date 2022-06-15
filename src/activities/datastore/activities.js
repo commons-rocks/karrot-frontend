@@ -31,12 +31,13 @@ export default {
         }
       })
       const participantTypes = activity.participantTypes.map(participantType => {
-        const roleParticipants = participants.filter(({ role }) => role === participantType.role)
+        const typeParticipants = participants.filter(p => p.participantType.id === participantType.id)
         return {
           ...participantType,
-          participants: roleParticipants,
-          isEmpty: roleParticipants.length === 0,
-          isFull: participantType.maxParticipants > 0 && roleParticipants >= participantType.maxParticipants,
+          participants: typeParticipants,
+          isEmpty: typeParticipants.length === 0,
+          isFull: participantType.maxParticipants > 0 && typeParticipants >= participantType.maxParticipants,
+          isUserParticipant: typeParticipants.map(entry => entry.user.id).includes(userId),
         }
       })
       return {

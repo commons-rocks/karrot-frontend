@@ -64,7 +64,7 @@
             v-for="participantType in participantTypes"
             :key="participantType.id"
             class="col"
-            :class="participantTypes.length > 1 ? 'multiple-types' : ''"
+            :class="[participantTypes.length > 1 ? 'multiple-types' : '', participantType.isUserParticipant ? 'active' : '']"
           >
             <Markdown
               v-if="participantType.description"
@@ -387,8 +387,10 @@ export default {
       visibility: visible
 
 .multiple-types
-  padding-left: 8px
-  border-left: 4px solid #ccc
+  padding: 4px 8px 2px 8px
+  border-left: 4px solid rgba(0, 0, 0, 0.1)
+  &.active
+   background-color: rgba(0, 0, 0, 0.1)
 
 .content
   width: 100%
