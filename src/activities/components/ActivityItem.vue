@@ -75,10 +75,10 @@
               :participant-type="participantType"
             />
             <div
-              v-if="participantType.role !== 'member'"
+              v-if="participantTypes.length > 1 || participantType.role !== 'member'"
               class="q-my-xs"
             >
-              <em>Open for <strong>{{ participantType.role }}</strong></em>
+              <em>Open for <strong>{{ roleName(participantType.role) }}</strong></em>
             </div>
           </div>
           <CustomDialog v-model="joinDialog">
@@ -113,8 +113,8 @@
                         :source="participantType.description"
                       />
                     </QItemLabel>
-                    <QItemLabel v-if="participantType.role !== 'member'">
-                      <em>Open for <strong>{{ participantType.role }}</strong></em>
+                    <QItemLabel>
+                      <em>Open for <strong>{{ roleName(participantType.role) }}</strong></em>
                     </QItemLabel>
                   </QItemSection>
                 </QItem>
@@ -373,6 +373,9 @@ export default {
       if (event.target.closest('a')) return // ignore actual links
       this.$emit('detail', this.activity)
     },
+    roleName (role) {
+      return role === 'member' ? 'anyone' : role // TODO: translation
+    },
   },
 }
 </script>
@@ -387,7 +390,7 @@ export default {
       visibility: visible
 
 .multiple-types
-  padding: 4px 8px 2px 8px
+  padding: 8px 8px 2px 8px
   border-left: 4px solid rgba(0, 0, 0, 0.1)
   &.active
    background-color: rgba(0, 0, 0, 0.1)
