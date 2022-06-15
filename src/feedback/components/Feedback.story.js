@@ -9,7 +9,7 @@ import FeedbackItem from './FeedbackItem'
 import FeedbackList from './FeedbackList'
 import PlaceFeedback from './PlaceFeedback'
 
-import { feedbackMock, placesMock, activitiesMock } from '>/mockdata'
+import { feedbackMock, activitiesMock } from '>/mockdata'
 import * as factories from '>/enrichedFactories'
 
 const range = n => [...Array(n).keys()]

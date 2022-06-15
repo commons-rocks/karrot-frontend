@@ -2,7 +2,7 @@ import { h } from 'vue'
 import { storiesOf } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
 
-import ActivityUsers from "@/activities/components/ActivityUsers";
+import ActivityUsers from '@/activities/components/ActivityUsers'
 
 import {
   joinableActivity,

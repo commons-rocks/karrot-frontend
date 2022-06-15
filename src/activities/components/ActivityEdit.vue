@@ -331,6 +331,10 @@ export default {
       required: true,
     },
   },
+  emits: [
+    'cancel',
+    'save',
+  ],
   data () {
     return {
       ui: 'v4',
@@ -338,10 +342,6 @@ export default {
       showPreview: false,
     }
   },
-  emits: [
-    'cancel',
-    'save',
-  ],
   computed: {
     previewActivity () {
       return {
