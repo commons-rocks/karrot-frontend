@@ -23,6 +23,7 @@ storiesOf('ActivityList', module)
   .add('Default', () => defaults({
     render: () => h(ActivityList, {
       activities,
+      roles: [],
       filterActivityTypes: Object.values(factories.activityTypes),
       onJoin: action('join'),
       onLeave: action('leave'),

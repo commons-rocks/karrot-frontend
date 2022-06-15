@@ -2,7 +2,8 @@ import { h } from 'vue'
 import { storiesOf } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
 
-const ActivityUsers = () => import('./ActivityUsers')
+import ActivityUsers from "@/activities/components/ActivityUsers";
+
 import {
   joinableActivity,
   leavableActivity,

@@ -8,7 +8,7 @@
         v-if="isLink"
         :to="{name:'user', params: {userId: user.id}}"
         :title="tooltip"
-        click.stop=""
+        @click.stop=""
       >
         <img
           v-if="hasPhoto"
