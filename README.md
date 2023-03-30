@@ -1,3 +1,18 @@
+#### Why this fork?
+
+_Because upstream repo seems to have encoded [structural violence mechanisms](https://community.karrot.world/t/thinking-about-conflict-resolution-and-improving-the-feature-to-remove-users/988/3) that we aim to fix here._
+
+_[@mariha](https://github.com/mariha) turned out to be not compatible with Karrot (upstream repo) team's culture. Despite the [Code of Conduct](https://github.com/karrot-dev/karrot-frontend/blob/master/CODE_OF_CONDUCT.md) declares differently, it looks like there exist a power (abusive!) structure and a culture of emotion avoidance/dismissal which is probably a byproduct of similar structures. They've been together observed to result in [otherwise unseen emotional outbursts and withdrawals](https://web.archive.org/web/20220322080843/https://community.karrot.world/t/possible-code-of-conduct-violation/840). It seems to be a structural violence mechanism that has been also encoded in Karrot software - under systemic consensus based Conflicts Resolution feature. It is worth trying to address [the issue](../../issues/1) - as a remedy for the harms experienced personally and for the sake of the group(s) using (forked) Karrot software._
+
+#### How is it different from the upstream repo?
+
+_We believe culture follows structure. We aspire to create a scaffold for inclusive communities, which are a safe space for everyone, not only the most powerful ones. Communities, where belonging is based on clear and objective rules and not subjective to affinity biases._
+
+_We plan to do it by restoring 'conflicts' their proper function in the communities, so that their resolution is a positive experience of bringing back balance and creating new better order (fairer, more equitable, allowing for better participation) in the world of the community where it occurred - rather then being a tool of oppression used by the most powerful ones to strengthen them even more. We believe good conflicts' resolutions (1) seek to acknowledge and compensate any harms that have happened for *all* the parties involved in them and (2) may result in redesigning the rules to prevent similar situations from happening again. This way, conflicts are something constructive and to be looked forward to rather then to be avoided._
+
+_Note: we are in the process of moving away from the upstream repo, you will still find references to it everywhere!_
+
+---
 
 <div align="center">
   <img width="200" src="https://karrot.world/statics/carrot_logo.png">
@@ -17,7 +32,7 @@ It is designed in ways to enable community-building and support a more transpare
 <br>
 <br>
 
-This is the frontend repository, i.e. the browser-side software that powers [karrot.world](https://karrot.world). Have a look at our server-side code at [karrot-backend](https://github.com/karrot-dev/karrot-backend), too!
+This is the frontend repository, i.e. the browser-side software that powers [karrot.community](https://karrot.community). Have a look at our server-side code at [karrot-backend](https://github.com/mariha/karrot-backend), too!
 
 ## Features
 
