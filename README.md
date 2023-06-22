@@ -1,6 +1,11 @@
-#### Why this fork?
+> _Human beings are so made that the ones who do the crushing feel nothing: it is the person crushed who feels what is happening. Unless one has placed oneself on the side of the oppressed, to feel with them, one cannot understand._
+> 
+> Simone Weil
 
-_Because upstream repo seems to have encoded [structural violence mechanisms](https://community.karrot.world/t/thinking-about-conflict-resolution-and-improving-the-feature-to-remove-users/988/3) that we aim to fix here._
+
+#### Why this fork was created?
+
+_Because the upstream repo seems to have encoded [structural violence mechanisms](https://community.karrot.world/t/thinking-about-conflict-resolution-and-improving-the-feature-to-remove-users/988/3) that we aim to fix here._
 
 _[@mariha](https://github.com/mariha) turned out to be not compatible with Karrot (upstream repo) team's culture. Despite the [Code of Conduct](https://github.com/karrot-dev/karrot-frontend/blob/master/CODE_OF_CONDUCT.md) declares differently, it looks like there exist a power (abusive!) structure and a culture of emotion avoidance/dismissal which is probably a byproduct of similar structures. They've been together observed to result in [otherwise unseen emotional outbursts and withdrawals](https://web.archive.org/web/20220322080843/https://community.karrot.world/t/possible-code-of-conduct-violation/840). It seems to be a structural violence mechanism that has been also encoded in Karrot software - under systemic consensus based Conflicts Resolution feature. It is worth trying to address [the issue](../../issues/1) - as a remedy for the harms experienced personally and for the sake of the group(s) using (forked) Karrot software._
 
