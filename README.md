@@ -11,9 +11,9 @@ _[@mariha](https://github.com/mariha) turned out to be not compatible with Karro
 
 #### How is it different from the upstream repo?
 
-_We believe culture follows structure. We aspire to create a scaffold for inclusive communities, which are a safe space for everyone, not only the most powerful ones. Communities, where belonging is based on clear and objective rules and not subjective to affinity biases._
+_We believe culture follows structure. We aspire to create a scaffold for inclusive communities, which are a safe space for everyone, not only the most powerful ones. Communities, where people can belong: where membership is based on clear and objective criteria and not subjective to affinity biases._
 
-_We plan to do it by restoring 'conflicts' their proper function in the communities, so that their resolution is a positive experience of bringing back balance and creating new better order (fairer, more equitable, allowing for better participation) in the world of the community where it occurred - rather then being a tool of oppression used by the most powerful ones to strengthen them even more. We believe good conflicts' resolutions (1) seek to acknowledge and compensate any harms that have happened for *all* the parties involved in them and (2) may result in redesigning the rules to prevent similar situations from happening again. This way, conflicts are something constructive and to be looked forward to rather then to be avoided._
+_We plan to do it by restoring 'conflicts' their proper function in the communities, so that their resolution is a positive experience of bringing back balance and creating new better order (fairer, more equitable, allowing for better participation) in the world of the community where it occurred - rather then being a tool of oppression used by the most powerful ones to strengthen their position even more. We believe good conflicts' resolutions (1) seek to acknowledge and compensate any harms that have happened for *all* the parties involved in them and (2) may result in redesigning the rules to prevent similar situations from happening again. This way, conflicts are something constructive and to be looked forward to rather then to be avoided._
 
 _Note: we are in the process of moving away from the upstream repo, you will still find references to it everywhere!_
 
